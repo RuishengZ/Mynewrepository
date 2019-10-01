@@ -27,6 +27,11 @@ class Solution:
             
             else:
                 return 0
+                
+        elif p == q:
+            return 1
+        else:
+            return 0
             
 x = Solution()
 x.isSameTree(p,q)
