@@ -1,42 +1,36 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        self.alllist = []
-        self.candiList = []
-        self.nowValue = 0
+        
+    # Exclude the extreme case
+        if not candidates:
+            return [[]]
+        
+        # Initialize the final solution and partial solution
+        result = []
+        feasible = []
+        
+        # Rearrange the candidate list
         candidates.sort()
         
-        self.Numbplus(self.nowValue, target, candidates, self.candiList, self.alllist)
-        return self.alllist
-    
-    
-    def Numbplus(self, current_value, target, GivenList, candiList, allList):
-        for i in GivenList:
-            current_value += i
-            if current_value < target:
-                candiList.append(i)
-                allList, candiList, current_value = self.Numbplus(current_value, target, GivenList, candiList, allList)
-                candiList = candiList[:-1]
-                current_value -= i
-                
+        Combination(result, candidates, target, feasible, 0)
+        return result
             
-            elif current_value == target:
-                compareList = candiList.copy()
-                candiList.append(i)
-                compareList.append(i)
-                compareList.sort()
-                if compareList not in allList:
-                    allList.append(candiList)
-                candiList = candiList[:-1]
-                current_value -= i
-                break
-                
-            elif current_value > target:
-                current_value -= i
-                break
-                
+# DFS function
+def Combination(result, candidate, target, feasible, start):
+
+    if target == 0:
+        result.append(feasible[:])
+        return
+
+    for i in range(start, len(candidate)):
+        if candidate[i] > target:
+            return
+        feasible.append(candidate[i])
+        Combination(result, candidate, target - candidate[i], feasible, i)
+        feasible.pop()
+
+    return 
         
-        return allList, candiList, current_value
-                
                 
                 
             
